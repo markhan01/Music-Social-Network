@@ -4,12 +4,14 @@
 class User{
     public:
     string name;
-    int size;
     Library library;
-    vector<User> friendlist;
+    int visited;
+    vector<User*> friendlist;
     User();
     User(string);
-    void add_friend(User);
-    void delete_friend(User);
+    int friend_exist(string);
+    void add_friend(User*);
+    void show_friends();
+    void delete_friend(string);
 };
 #endif

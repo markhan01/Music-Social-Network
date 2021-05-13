@@ -1,21 +1,22 @@
 #ifndef Library_H
 #define Library_H
-#include "Song_BST.h"
+#include "SongBST.h"
 
 class Library{
     public:
-    Song_BST* songs;
-    Song* heap[100];
-    int heap_index;
+    SongBST* songs;
+    vector<Song*> heap;
+    
     Library();
     void add_song(string, int);
-    int song_exist(Song_Node*, string);
-    //void recommend(string);
+    int song_exist(SongNode*, string);
+    void recommend(Song*);
     void show_songs();
-    void remove_song();
-    void play(Song_Node*, string);
+    Song* get_song(string);
+    void play(SongNode*, string, int);
     void increase(int);
-
+    Song* extract_max();
+    void max_heapify(int);
 };
 
 #endif
