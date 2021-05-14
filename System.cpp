@@ -1,3 +1,21 @@
+/*
+Commands:
+show system songs
+add song ()
+show MainUser songs
+add user ()
+friend () ()
+show users
+show friends ()
+unfriend () ()
+set radius ()
+set count ()
+play (user) (song)
+recommend () songs
+delete song ()
+exit
+*/
+
 #include "User.h"
 #include "PARSER.h"
 #include <fstream>
@@ -95,14 +113,23 @@ int main(){
             system_library.show_songs();
         }
 
+        else if(command.getOperation() == "add" && command.getArg1() == "song" && command.getArg2() != ""){
+            system_library.add_song(command.getArg2(), system_library.heap.size());
+        }
+
         else if(command.getOperation() == "show" && command.getArg1() == "MainUser" && command.getArg2() == "songs"){
             system_users[0]->library.show_songs();
         }
 
         // add user user_name
 		else if (command.getOperation() == "add" && command.getArg1() == "user" && command.getArg2() != "") {
-            User* u = new User(command.getArg2());
-            system_users.push_back(u);
+            if(user_exist(command.getArg2()) == -1){
+                User* u = new User(command.getArg2());
+                system_users.push_back(u);
+            }
+            else{
+                cout << "Error: " << command.getArg2() << " already exist!" << endl;
+            }
         }
 
         // friend user_name1 user_name2
@@ -143,8 +170,8 @@ int main(){
             }
         }
 
-        // remove friend1 friend2
-        else if(command.getOperation() == "remove" && command.getArg1() != "" && command.getArg2() != ""){
+        // unfriend friend1 friend2
+        else if(command.getOperation() == "unfriend" && command.getArg1() != "" && command.getArg2() != ""){
             if(user_exist(command.getArg1()) != -1 && user_exist(command.getArg2()) != -1){
                 system_users[user_exist(command.getArg1())]->delete_friend(command.getArg2());
                 system_users[user_exist(command.getArg2())]->delete_friend(command.getArg1());
@@ -211,7 +238,7 @@ int main(){
 
         }
         
-        else if(command.getOperation() == "quit" && command.getArg1() == "" && command.getArg2() == ""){
+        else if(command.getOperation() == "exit" && command.getArg1() == "" && command.getArg2() == ""){
             break;
         }
         else{
